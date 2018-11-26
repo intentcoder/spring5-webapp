@@ -6,17 +6,21 @@ import org.springframework.stereotype.Component;
 
 import com.intentcoder.model.Author;
 import com.intentcoder.model.Book;
+import com.intentcoder.model.Publisher;
 import com.intentcoder.repositories.AuthorRepository;
 import com.intentcoder.repositories.BookRepository;
+import com.intentcoder.repositories.PublisherRepository;
 
 @Component
 public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 	private AuthorRepository authorRepository;
 	private BookRepository bookRepository;
+	private PublisherRepository publisherRepository;
 	
-	public DevBootstrap(AuthorRepository authorRepository, BookRepository bookRepository) {
+	public DevBootstrap(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
 		this.authorRepository = authorRepository;
 		this.bookRepository = bookRepository;
+		this.publisherRepository = publisherRepository;
 	}
 	
 	@Override
@@ -27,16 +31,20 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
 	private void initData() {
 		//Eric
 		Author eric = new Author("Eric", "Evans");
-		Book ddd = new Book("Domain Driven Design", "1234", "Harper Collins");
+		Publisher collins = new Publisher("Harper Collins", "New Jersey");
+		Book ddd = new Book("Domain Driven Design", "1234", collins);
 		eric.getBooks().add(ddd);
 		ddd.getAuthors().add(eric);
+		publisherRepository.save(collins);
 		authorRepository.save(eric);
 		bookRepository.save(ddd);
 		
 		//Rod Johnson
 		Author rod = new Author("Rod", "Johnson");
-		Book noEjb = new Book("J2EE development without EJB", "5678", "Worx");
+		Publisher worx = new Publisher("Worx", "Emeryville");
+		Book noEjb = new Book("J2EE development without EJB", "5678", worx);
 		eric.getBooks().add(noEjb);
+		publisherRepository.save(worx);
 		authorRepository.save(rod);
 		bookRepository.save(noEjb);
 	}
