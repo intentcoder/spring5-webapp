@@ -28,6 +28,10 @@ public class Book {
 	joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
 	private Set<Author> authors = new HashSet<Author>();
 	
+	public Book() {
+		//Default constructor for templating engine
+	}
+	
 	public Book(String title, String isbn, Publisher publisher) {
 		this.title = title;
 		this.isbn = isbn;
